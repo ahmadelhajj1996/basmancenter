@@ -288,15 +288,8 @@ const Map = ({
       </div>
       
       <div className="relative max-w-2xl md:max-w-4xl mx-auto text-center z-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-cyan-600 mb-8 tracking-wide relative inline-block">
-          <span className="relative px-6">
+        <h2 className="title">
             {t("map.title")}
-            {/* Animated title underline */}
-            <span className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-cyan-600 to-transparent animate-pulse" />
-            {/* Diagonal accent lines */}
-            <span className="absolute -top-2 -left-2 w-8 h-px bg-gradient-to-r from-transparent to-cyan-600/40 transform rotate-45" />
-            <span className="absolute -top-2 -right-2 w-8 h-px bg-gradient-to-r from-cyan-600/40 to-transparent transform -rotate-45" />
-          </span>
         </h2>
       </div>
 
@@ -358,9 +351,8 @@ const Map = ({
             {['address', 'hours', 'email', 'phone'].map((item, index) => (
               <div 
                 key={item} 
-                className="relative flex min-[375px]:gap-x-4 items-center group/item py-3 px-4 rounded-xl hover:bg-gradient-to-r from-transparent via-cyan-600/5 to-transparent transition-all duration-300"
+                className="relative flex items-center group/item py-3 px-4 rounded-xl hover:bg-gradient-to-r from-transparent via-cyan-600/5 to-transparent transition-all duration-300"
               >
-                {/* Hover effect line */}
                 <div className="absolute left-0 top-1/2 w-1 h-0 bg-gradient-to-b from-cyan-800 via-cyan-800 to-transparent -translate-y-1/2 group-hover/item:h-12 transition-all duration-500" />
                 
                 {/* Decorative bullet */}
@@ -368,14 +360,16 @@ const Map = ({
                   <div className="w-1 h-1 bg-cyan-600 rounded-full mx-auto mt-1" />
                 </div>
                 
-                <p className="text-cyan-600 min-[375px]:w-[100px] text-sm md:text-lg font-medium tracking-wider capitalize flex-shrink-0">
+                {/* Key with black text and reduced gap */}
+                <p className="text-black text-sm md:text-base font-medium tracking-wider capitalize flex-shrink-0 w-20 md:w-24">
                   {t(`map.${item}`)}
                 </p>
                 
-                <span className="text-cyan-600/90 text-sm md:text-lg tracking-wider ml-2 group-hover/item:text-cyan-600 transition-colors duration-300">
+                {/* Value with black text and minimal margin */}
+                <span className="text-black/80 text-sm md:text-base tracking-wider ml-2 group-hover/item:text-black transition-colors duration-300">
                   {item === 'address' ? t("map.addressval") :
-                   item === 'hours' ? t("map.hoursval") :
-                   item === 'email' ? contact.email : contact.phone}
+                  item === 'hours' ? t("map.hoursval") :
+                  item === 'email' ? contact.email : contact.phone}
                 </span>
                 
                 {/* Diagonal accent line on hover */}
