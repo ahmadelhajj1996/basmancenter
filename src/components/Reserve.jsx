@@ -46,7 +46,7 @@ function Register() {
       ),
   });
 
- const sendToWhatsApp = (values) => {
+  const sendToWhatsApp = (values) => {
   // Format date
   const formattedDate = new Date(values.dob).toLocaleDateString("en-US", {
     weekday: "long",
@@ -71,10 +71,10 @@ function Register() {
     `*⏰ Time:* ${formattedTime}%0A%0A` +
     `_This appointment was booked via Basman Alnuaini medical center_`;
 
-  // Clean phone number
+  // Clean phone number - remove all non-digits
   const phoneNumber = "971508149362".replace(/\D/g, "");
-
-  // Check if device is mobile
+  
+  // Better mobile detection
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   // Create WhatsApp URL
@@ -118,7 +118,9 @@ function Register() {
   console.log("WhatsApp message prepared");
 
   return { formattedDate, formattedTime };
-};
+  };
+
+
 
   
   const handleSubmit = (values, { resetForm, setSubmitting }) => {
