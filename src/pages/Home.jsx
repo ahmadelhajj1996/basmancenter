@@ -5,6 +5,7 @@ import Service from "../components/Services";
 import Doctors from "../components/Doctors";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
+import Backtop from "../components/Backtop";
 
 function Home() {
   
@@ -28,9 +29,10 @@ function Home() {
         </div>
         <Footer />
       </div>
+      <Backtop />
+
     </>
   );
 }
 
 export default Home;
-
