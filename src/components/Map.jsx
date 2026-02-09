@@ -184,7 +184,7 @@ const Map = ({
   },
   contact = {
     email: "basman-naimi@gmail.com",
-    phone: "+971 67414199",
+    phone: "+97167414199",
   },
 }) => {
   const { t } = useTranslation();
@@ -391,3 +391,4 @@ const Map = ({
 };
 
 export default Map;
+
