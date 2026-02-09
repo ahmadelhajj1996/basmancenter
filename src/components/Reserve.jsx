@@ -125,7 +125,6 @@ function Register() {
                       <Field
                         name="name"
                         type="text"
-                        placeholder="name"
                         className="w-full p-2 border rounded"
                       />
                       <ErrorMessage
@@ -141,7 +140,6 @@ function Register() {
                       <Field
                         name="phone"
                         type="text"
-                        placeholder="your phone"
                         inputMode="numeric"
                         pattern="^\d{10}$"
                         maxLength={10}
@@ -167,7 +165,6 @@ function Register() {
                       <Field
                         name="email"
                         type="email"
-                        placeholder="email"
                         className="w-full p-2 border rounded"
                       />
                       <ErrorMessage
@@ -185,7 +182,6 @@ function Register() {
                         <Field
                           name="dob"
                           type="date"
-                          placeholder="Select a day"
                           className="w-full p-2 border rounded"
                         />
                         <ErrorMessage
@@ -201,7 +197,6 @@ function Register() {
                         <Field
                           name="time"
                           type="time"
-                          placeholder="Confident Hour"
                           className="w-full p-2 border rounded"
                         />
                         <ErrorMessage
@@ -231,5 +226,6 @@ function Register() {
 }
 
 export default Register;
+
 
 
