@@ -61,98 +61,59 @@ function Register() {
     return `${formattedHour}:${minutes.padStart(2, "0")} ${period}`;
   };
 
-  const openWhatsApp = (phoneNumber, message) => {
-    // Clean phone number - remove all non-digits and ensure proper format
-    const cleanPhone = phoneNumber.replace(/\D/g, '');
-    
-    // For WhatsApp, ensure it has country code without + or 00
-    const whatsappPhone = cleanPhone.startsWith('971') ? cleanPhone : `971${cleanPhone}`;
-    
-    // Encode message for URL
-    const encodedMessage = encodeURIComponent(message);
-    
-    // Create URLs for different platforms
-    const webUrl = `https://web.whatsapp.com/send?phone=${whatsappPhone}&text=${encodedMessage}`;
-    const mobileUrl = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
-    const androidIntentUrl = `intent://send?phone=${whatsappPhone}&text=${encodedMessage}#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end`;
-    
-    // Detect platform
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-    const isAndroid = /android/i.test(userAgent);
-    
-    let urlToOpen = mobileUrl; // Default to mobile URL
-    
-    if (isAndroid) {
-      // Try Android Intent first for better app opening
-      urlToOpen = androidIntentUrl;
-    } else if (!isMobile) {
-      // Desktop - use web version
-      urlToOpen = webUrl;
-    }
-    
-    // For iOS or other mobile devices, use standard wa.me URL
-    if (isMobile && !isAndroid) {
-      urlToOpen = mobileUrl;
-    }
-    
-    // Create a temporary anchor element to trigger the download
-    const link = document.createElement('a');
-    link.href = urlToOpen;
-    
-    // Set attributes for proper opening
-    if (isAndroid) {
-      // For Android intent, we need to handle it differently
-      window.location.href = urlToOpen;
-    } else {
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      
-      // Add to DOM, click, and remove
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    
-    // Fallback mechanism - if nothing opens in 2 seconds, try standard approach
-    setTimeout(() => {
-      if (document.hasFocus()) {
-        // If still on the page, try standard WhatsApp URL
-        const fallbackWindow = window.open(mobileUrl, '_blank');
-        if (!fallbackWindow || fallbackWindow.closed || typeof fallbackWindow.closed === 'undefined') {
-          // If popup blocked or failed, redirect in current tab
-          window.location.href = mobileUrl;
-        }
-      }
-    }, 2000);
-  };
-
   const sendToWhatsApp = async (values) => {
-    try {
-      const formattedDate = formatDate(values.dob);
-      const formattedTime = formatTime(values.time);
+  try {
+    const formattedDate = formatDate(values.dob);
+    const formattedTime = formatTime(values.time);
 
-      // Build message with proper encoding
-      const message = `*🎯 New Appointment Request*\n\n` +
-        `*👤 Full Name:* ${values.name}\n` +
-        `*📱 Phone:* ${values.phone}\n` +
-        `*📧 Email:* ${values.email}\n` +
-        `*📅 Date:* ${formattedDate}\n` +
-        `*⏰ Time:* ${formattedTime}\n\n` +
-        `_This appointment was booked via Basman Alnuaini medical center_`;
+    // Build message
+    const message =
+      `*🎯 New Appointment Request*%0A%0A` +
+      `*👤 Full Name:* ${encodeURIComponent(values.name)}%0A` +
+      `*📱 Phone:* ${encodeURIComponent(values.phone)}%0A` +
+      `*📧 Email:* ${encodeURIComponent(values.email)}%0A` +
+      `*📅 Date:* ${encodeURIComponent(formattedDate)}%0A` +
+      `*⏰ Time:* ${encodeURIComponent(formattedTime)}%0A%0A` +
+      `_This appointment was booked via Basman Alnuaini medical center_`;
 
-      // Phone number for WhatsApp
-      const phoneNumber = "971508149362";
-      
-      // Open WhatsApp with the message
-      openWhatsApp(phoneNumber, message);
-      
-      return { formattedDate, formattedTime };
-    } catch (error) {
-      console.error("Error sending to WhatsApp:", error);
-      throw error;
+    // Clean phone number - remove all non-digits
+    const rawPhone = "971508149362".replace(/\D/g, "");
+    
+    // Ensure it has country code and proper formatting
+    let phoneNumber;
+    if (rawPhone.startsWith('00')) {
+      phoneNumber = rawPhone.substring(2); // Remove leading 00
+    } else if (rawPhone.startsWith('0')) {
+      phoneNumber = rawPhone.substring(1); // Remove leading 0
+    } else {
+      phoneNumber = rawPhone; // Use as is
     }
-  };
+    
+    // For WhatsApp, we need the number in international format without + or 00
+    // WhatsApp format: country code + number (without leading zeros or plus sign)
+    // Example: 971508149362 (UAE number)
+    
+    // Detect if user is on a mobile device
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // For mobile devices, use WhatsApp app directly
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      // For desktop, use WhatsApp Web
+      const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+    
+    return { formattedDate, formattedTime };
+  } catch (error) {
+    console.error("Error sending to WhatsApp:", error);
+    throw error;
+  }
+};
+
+
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     console.log("Form submitted", values);
@@ -162,15 +123,12 @@ function Register() {
       
       await sendToWhatsApp(values);
       
-      // Show success message after a short delay
-      setTimeout(() => {
-        notify("done", "Appointment request sent successfully! If WhatsApp didn't open, please check your browser permissions.");
-      }, 500);
+      notify("done", "Appointment request sent successfully!");
       
       resetForm();
     } catch (error) {
       console.error("Error submitting form:", error);
-      notify("error", "Failed to send appointment request. Please try again or contact us directly.");
+      notify("error", "Failed to send appointment request. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -282,17 +240,6 @@ function Register() {
                       />
                     </div>
                   </div>
-                </div>
-
-                {/* Instructions for Android Users */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800 mt-2">
-                  <p className="font-semibold mb-1">📱 For Android Users:</p>
-                  <p>If WhatsApp doesn't open automatically, please:</p>
-                  <ol className="list-decimal pl-5 mt-1 space-y-1">
-                    <li>Make sure WhatsApp is installed on your device</li>
-                    <li>Allow pop-ups for this website in browser settings</li>
-                    <li>Try clicking "Confirm" button again</li>
-                  </ol>
                 </div>
 
                 {/* Submit Button */}
