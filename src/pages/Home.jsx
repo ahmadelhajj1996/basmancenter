@@ -8,12 +8,8 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 
 function Home() {
-   const lang = localStorage.getItem('lang') || 'en';
   
-  useEffect(() => {
-    document.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  }, []);
-
+  
   const handleClick = () => {
     const reserveSection = document.getElementById("reserve-section");
     if (reserveSection) {
@@ -22,7 +18,7 @@ function Home() {
   };
   return (
     <>
-      <div dir={lang == "ar" ? "rtl" : "ltr"}>
+      <div>
         <Hero handleClick={handleClick} />
         <About />
         <Service />
