@@ -13,7 +13,7 @@ const CombinedComponent = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { i18n } = useTranslation();
-  const lang = i18n.language.slice(0, 2);
+  const lang = i18n.language.slice(0, 2)
 
   // Memoized contact options
   const contactOptions = useMemo(
@@ -96,16 +96,8 @@ const CombinedComponent = () => {
 
  const handleLangChange = (lang) => {
   i18n.changeLanguage(lang);
-  
-  if (lang === "ar") {
-    document.dir = "rtl";
-    document.documentElement.lang = "ar";
-  } else {
-    document.dir = "ltr";
-    document.documentElement.lang = lang;
-  }
-  
-  localStorage.setItem("lang", lang);
+  // Immediately update direction
+  document.dir = lang === "ar" ? "rtl" : "ltr";
 };
 
 
@@ -211,7 +203,7 @@ const CombinedComponent = () => {
           {/* Desktop Layout */}
           {!isMobile && (
             <div className="rounded-2xl shadow-2xl     ">
-              <div className="space-y-1">
+              <div className="space-y-3">
                 {contactOptions.map((option) => (
                   <button
                     key={option.id}
@@ -237,7 +229,7 @@ const CombinedComponent = () => {
 
           {/* Mobile Layout */}
           {isMobile && (
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-3">
               {contactOptions.map((option, index) => (
                 <button
                   key={option.id}
