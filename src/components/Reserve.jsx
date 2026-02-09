@@ -66,7 +66,6 @@ function Register() {
       `*📧 Email:* ${values.email}%0A` +
       `*📅 Date:* ${formattedDate}%0A` +
       `*⏰ Time:* ${formattedTime}%0A%0A` +
-      `_This appointment was booked via Basman Alnuaini medical center_%0A%0A`;
 
     // Clean phone number - remove all non-digits
     const phoneNumber = "971508149362".replace(/\D/g, "");
@@ -254,3 +253,4 @@ function Register() {
 }
 
 export default Register;
+
