@@ -18,7 +18,7 @@ const Footer = () => {
         />
       </svg>
 
-      <div className="flex justify-center  items-center pt-12 space-x-4 ">
+      <div className="flex justify-center  items-center pt-12 gap-x-12 ">
         
         <a
           href="/"
@@ -46,4 +46,5 @@ const Footer = () => {
   );
 };
 export default Footer;
+
 
