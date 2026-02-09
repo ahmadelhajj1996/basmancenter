@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "title": "Basman Alnaimi Medical Center",
+    "slider1": "Empowering the whole family to live a healthier life.",
+    "slider2":  " Making healthy living a reality for every family member.",
+    "slider3":  " Your trusted partner in family healthcare.",
+    "slider4": "Comprehensive care for every stage of life.",
+    "slider5": " Building healthier futures together." ,
+    "booknow" :"Book Now"
+  },
+  "about": {
+    "title": "About the Center",
+    "description1": "At the Dr. Basman Alnaimi Medical Center, we are founded on a simple, powerful belief: every patient deserves exceptional, compassionate, and personalized healthcare. Located in the vibrant emirate of Ajman, we have dedicated ourselves to becoming a cornerstone of wellness for our community, offering a seamless blend of medical expertise, advanced technology, and a deeply human touch.",
+    "description2": "The center is built upon the distinguished reputation of Dr. Basman Alnaimi, a respected medical professional whose vision extends beyond treatment to encompass holistic patient care and well-being. Our team is carefully curated, bringing together highly qualified doctors, specialists, and healthcare staff who are not only leaders in their respective fields but also share a commitment to continuous learning and innovation. We ensure that the care you receive is aligned with the highest international standards."
+  },
+  "services": {
+    "title": "Our Medical Services",
+    "Urology": "Urology",
+    "Dental": "Dental",
+    "Fetus": "Fetus",
+    "Ent": "Ent",
+    "Cardeology": "Cardeology",
+    "Cupping": "Cupping",
+    "Dermatology": "Dermatology",
+    "Neurolgy": "Neurolgy"
+  },
+  "doctors": {
+    "title": "Our Doctors",
+    "basman": " Dr. Basman Al-naimi",
+    "roula": "Dr. Roula Ali Mousa",
+    "tawfiq": "Dr. Tawfiq Al hatem",
+    "Mohamed": "Dr. Mohamed Alhaj Ali",
+    "Hasab": "Dr. Hasab Sadeeq",
+    "Mohsen": "Dr. Mohsen Mohammed",
+    "Urology": "    Urology Specialist",
+    "Gynecology": "Gynecology Specialist",
+    "General": "General & Children",
+    "Neurological": "Neurological Specialist",
+    "Internal": "Internal diseases Specialist",
+    "Cosmetic": "Cosmetic dentistry and smiles"
+  },
+  "map": {
+    "title": "Your Destination Awaits",
+    "address": "Address :",
+    "addressval": "Al Nuaimia 1 - Ajman , UAE",
+    "hours": "Times :",
+    "hoursval": "Monday-Sunday:(10am -10pm)",
+    "email": "Email :",
+    "phone": " Phone :"
+  },
+  "form": {
+    "title": "Book an appointment",
+    "name": "Name :",
+    "email": "Email :",
+    "phone": " Phone :",
+    "date": " Date :",
+    "time": " Time : ( from 10am to 10pm )",
+    "confirm": "Confirm Booking",
+    "rights": "Copyright 2020 . All rights reserved."
+  } ,
+  
+  "validation": {
+    "name": {
+      "required": "Please enter your full name"
+    },
+    "email": {
+      "required": "Email is required",
+      "invalid": "Must be a valid email"
+    },
+    "dob": {
+      "required": "Date of birth is required",
+      "min": "Date must be today or later",
+      "invalid": "Please enter a valid date"
+    },
+    "phone": {
+      "required": "Phone number is required",
+      "invalid": "Phone number must be exactly 10 digits"
+    },
+    "time": {
+      "required": "Time is required",
+      "format": "Time must be in HH:mm format (24-hour)",
+      "range": "Time must be between 10:00 and 22:00"
+    }
+  }
+}

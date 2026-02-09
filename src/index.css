@@ -1,0 +1,57 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+    * {
+      @apply text-gray-900    ;
+    }
+  }
+
+
+@layer components {
+
+ 
+
+    .container {
+        @apply max-w-7xl mx-auto py-8 md:py-12 px-4 sm:px-6  lg:px-8 border-b-2 pb-16 border-cyan-700
+    }
+
+    .title {
+        @apply text-xl md:text-3xl font-semibold md:font-bold text-center text-cyan-700
+    }
+
+    .sub_title {
+        @apply   text-base md:text-xl     
+    }
+
+    .description {
+        @apply mt-1 text-gray-800
+    }
+
+    input {
+        @apply  p-2  text-sm   rounded-full  w-full  border-2 border-[1px]  focus:outline-none focus:ring-0  focus:border-gray-600
+    }
+
+    label {
+        @apply  tracking-wider capitalize text-sm md:text-lg
+    }
+
+    /* button {
+        @apply   p-2 my-4 w-full capitalize justify-center italic text-white  bg-blue-400 hover:bg-blue-500 rounded-full focus:outline-none focus:ring-0   
+    } */
+    /* adding disabled button styling */
+    
+ 
+    .error {
+        @apply absolute text-red-500 text-xs
+    }   
+    
+    
+
+ 
+}     
+    
+
+ 
+ 
