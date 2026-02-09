@@ -21,7 +21,8 @@ function Register() {
     email: yup.string().email(t('validation.name.invalid')).required(t('validation.email.required')),
    dob: yup.date()
     .required(t('validation.dob.required'))
-    .min(new Date(new Date().setHours(0, 0, 0, 0)), t('validation.dob.min'))
+        .min(new Date().getDate() - 1, t('validation.dob.min'))
+
     .typeError(t('validation.dob.invalid')),
     phone: yup
       .string()
@@ -233,5 +234,6 @@ function Register() {
 }
 
 export default Register;
+
 
 
