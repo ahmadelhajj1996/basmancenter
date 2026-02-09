@@ -71,7 +71,7 @@ function Register() {
     `_This appointment was booked via Basman Alnuaini medical center_`;
 
   // Clean phone number
-  const phoneNumber = "971508149362".replace(/\D/g, "");
+  const phoneNumber = "971557390668".replace(/\D/g, "");
 
   // Create WhatsApp URL using wa.me
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
@@ -226,6 +226,7 @@ function Register() {
 }
 
 export default Register;
+
 
 
 
