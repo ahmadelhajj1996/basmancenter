@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Reserve from "../components/Reserve";
 import Map from "../components/Map";
 import About from "../components/About";
@@ -34,3 +33,4 @@ function Home() {
 }
 
 export default Home;
+
