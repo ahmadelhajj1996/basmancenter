@@ -47,6 +47,7 @@ function Register() {
   });
 
  const sendToWhatsApp = (values) => {
+  // Format date
   const formattedDate = new Date(values.dob).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -54,9 +55,13 @@ function Register() {
     day: "numeric",
   });
 
+  // Format time
   const [hours, minutes] = values.time.split(":");
-  const formattedTime = `${parseInt(hours, 10) % 12 || 12}:${minutes.padStart(2, "0")} ${hours >= 12 ? "PM" : "AM"}`;
+  const formattedTime = `${parseInt(hours, 10) % 12 || 12}:${minutes.padStart(2, "0")} ${
+    hours >= 12 ? "PM" : "AM"
+  }`;
 
+  // Build message
   const message =
     `*🎯 New Appointment Request*%0A%0A` +
     `*👤 Full Name:* ${values.name}%0A` +
@@ -64,48 +69,57 @@ function Register() {
     `*📧 Email:* ${values.email}%0A` +
     `*📅 Date:* ${formattedDate}%0A` +
     `*⏰ Time:* ${formattedTime}%0A%0A` +
-    `_This appointment was booked via Basman Alnuaini medical center_%0A%0A`;
+    `_This appointment was booked via Basman Alnuaini medical center_`;
 
-  // Clean phone number - remove all non-digits (ONLY ONE DECLARATION)
+  // Clean phone number
   const phoneNumber = "971508149362".replace(/\D/g, "");
 
-  // Try WhatsApp Web first (better on desktop)
+  // Check if device is mobile
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
+  // Create WhatsApp URL
   let whatsappUrl;
+  
   if (isMobile) {
-    // For mobile devices
+    // Try direct app link first
     whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-  } else {
-    // For desktop - opens WhatsApp Web
-    whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${message}&app_absent=0`;
-  }
-
-  // Add fallback with timer for WhatsApp Web
-  if (!isMobile) {
-    const newWindow = window.open(whatsappUrl, "_blank");
-
-    // Fallback in case WhatsApp Web is blocked
+    
+    // Also try direct WhatsApp app protocol (for iOS/Android)
+    const directAppUrl = `whatsapp://send?phone=${phoneNumber}&text=${message}`;
+    
+    // Create iframe for app protocol (better iOS support)
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = directAppUrl;
+    document.body.appendChild(iframe);
+    
+    // Set timeout to fallback to web if app doesn't open
     setTimeout(() => {
-      if (
-        !newWindow ||
-        newWindow.closed ||
-        typeof newWindow.closed == "undefined"
-      ) {
-        // If popup blocked or failed, use regular wa.me
-        window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+      document.body.removeChild(iframe);
+      // Open web version as fallback
+      window.open(whatsappUrl, '_blank');
+    }, 500);
+    
+  } else {
+    // For desktop - use WhatsApp Web
+    whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+    
+    // Open with fallback
+    const newWindow = window.open(whatsappUrl, '_blank');
+    
+    // Fallback if popup blocked
+    setTimeout(() => {
+      if (!newWindow || newWindow.closed) {
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
       }
     }, 1000);
-  } else {
-    // window.open(whatsappUrl, '_blank');
   }
 
   console.log("WhatsApp message prepared");
 
-  // Return formatted date/time for use in confirmation
   return { formattedDate, formattedTime };
 };
- 
+
   
   const handleSubmit = (values, { resetForm, setSubmitting }) => {
     console.log("Form submitted", values);
