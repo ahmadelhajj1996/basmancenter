@@ -62,58 +62,73 @@ function Register() {
   };
 
   const sendToWhatsApp = async (values) => {
-  try {
-    const formattedDate = formatDate(values.dob);
-    const formattedTime = formatTime(values.time);
+    try {
+      const formattedDate = formatDate(values.dob);
+      const formattedTime = formatTime(values.time);
 
-    // Build message
-    const message =
-      `*🎯 New Appointment Request*%0A%0A` +
-      `*👤 Full Name:* ${encodeURIComponent(values.name)}%0A` +
-      `*📱 Phone:* ${encodeURIComponent(values.phone)}%0A` +
-      `*📧 Email:* ${encodeURIComponent(values.email)}%0A` +
-      `*📅 Date:* ${encodeURIComponent(formattedDate)}%0A` +
-      `*⏰ Time:* ${encodeURIComponent(formattedTime)}%0A%0A` +
-      `_This appointment was booked via Basman Alnuaini medical center_`;
+      // Build message
+      const message =
+        `*🎯 New Appointment Request*%0A%0A` +
+        `*👤 Full Name:* ${encodeURIComponent(values.name)}%0A` +
+        `*📱 Phone:* ${encodeURIComponent(values.phone)}%0A` +
+        `*📧 Email:* ${encodeURIComponent(values.email)}%0A` +
+        `*📅 Date:* ${encodeURIComponent(formattedDate)}%0A` +
+        `*⏰ Time:* ${encodeURIComponent(formattedTime)}%0A%0A` +
+        `_This appointment was booked via Basman Alnuaini medical center_`;
 
-    // Clean phone number - remove all non-digits
-    const rawPhone = "971508149362".replace(/\D/g, "");
-    
-    // Ensure it has country code and proper formatting
-    let phoneNumber;
-    if (rawPhone.startsWith('00')) {
-      phoneNumber = rawPhone.substring(2); // Remove leading 00
-    } else if (rawPhone.startsWith('0')) {
-      phoneNumber = rawPhone.substring(1); // Remove leading 0
-    } else {
-      phoneNumber = rawPhone; // Use as is
+      // Phone number - ensure it's clean
+      const phoneNumber = "971508149362".replace(/\D/g, "");
+      
+      // Detect device type
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      
+      let whatsappUrl = '';
+      
+      if (isMobile) {
+        // Mobile devices
+        if (isIOS) {
+          // iOS - try app protocol first, fallback to web
+          const appUrl = `whatsapp://send?phone=${phoneNumber}&text=${message}`;
+          const webUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+          
+          // Create hidden iframe for app protocol
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = appUrl;
+          document.body.appendChild(iframe);
+          
+          // Check if app opened
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+            // If still on page, app didn't open - use web
+            if (document.hasFocus()) {
+              window.location.href = webUrl;
+            }
+          }, 1000);
+          
+          return { formattedDate, formattedTime };
+        } else if (isAndroid) {
+          // Android - use standard WhatsApp URL
+          whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+        }
+      } else {
+        // Desktop - use WhatsApp Web
+        whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+      }
+      
+      // Open the URL
+      if (whatsappUrl) {
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      }
+      
+      return { formattedDate, formattedTime };
+    } catch (error) {
+      console.error("Error sending to WhatsApp:", error);
+      throw error;
     }
-    
-    // For WhatsApp, we need the number in international format without + or 00
-    // WhatsApp format: country code + number (without leading zeros or plus sign)
-    // Example: 971508149362 (UAE number)
-    
-    // Detect if user is on a mobile device
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // For mobile devices, use WhatsApp app directly
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    } else {
-      // For desktop, use WhatsApp Web
-      const whatsappUrl = `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
-    
-    return { formattedDate, formattedTime };
-  } catch (error) {
-    console.error("Error sending to WhatsApp:", error);
-    throw error;
-  }
-};
-
-
+  };
 
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     console.log("Form submitted", values);
