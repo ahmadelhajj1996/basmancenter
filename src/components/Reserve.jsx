@@ -19,10 +19,9 @@ function Register() {
   const validationSchema = yup.object({
     name: yup.string().required( t('validation.name.required') ),
     email: yup.string().email(t('validation.name.invalid')).required(t('validation.email.required')),
-   dob: yup.date()
+    dob: yup.date()
     .required(t('validation.dob.required'))
-        .min(new Date().getDate() - 1, t('validation.dob.min'))
-
+    .min(new Date().getDate() - 1 , t('validation.dob.min'))
     .typeError(t('validation.dob.invalid')),
     phone: yup
       .string()
@@ -48,7 +47,6 @@ function Register() {
   });
 
  const sendToWhatsApp = (values) => {
-  // Format date
   const formattedDate = new Date(values.dob).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
@@ -70,6 +68,7 @@ function Register() {
     `*📧 Email:* ${values.email}%0A` +
     `*📅 Date:* ${formattedDate}%0A` +
     `*⏰ Time:* ${formattedTime}%0A%0A` +
+    `_This appointment was booked via Basman Alnuaini medical center_`;
 
   // Clean phone number
   const phoneNumber = "971508149362".replace(/\D/g, "");
@@ -79,12 +78,10 @@ function Register() {
   
   // Open the URL in a new tab
   window.open(whatsappUrl, '_blank');
-  
-  console.log("WhatsApp message prepared");
 
   return { formattedDate, formattedTime };
 
-  };
+};
 
 
 
@@ -234,6 +231,3 @@ function Register() {
 }
 
 export default Register;
-
-
-
