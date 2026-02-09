@@ -184,7 +184,7 @@ const Map = ({
   },
   contact = {
     email: "basman-naimi@gmail.com",
-    phone: "+97167414199",
+    phone: "+971 67414199",
   },
 }) => {
   const { t } = useTranslation();
@@ -333,7 +333,7 @@ const Map = ({
           </div>
 
           {/* Contact Information with enhanced styling */}
-          <div className="relative px-6 py-8 flex flex-col gap-y-6 rounded-2xl backdrop-blur-sm border border-cyan-600/10 group hover:border-cyan-600/30 transition-all duration-500">
+          <div className="relative px-2 md:px-6 py-8 flex flex-col gap-y-6 rounded-2xl backdrop-blur-sm border border-cyan-600/10 group hover:border-cyan-600/30 transition-all duration-500">
             {/* Background decorative shapes */}
             <div className="absolute inset-0 pointer-events-none">
               {generateContactInfoDecorations()}
@@ -351,7 +351,7 @@ const Map = ({
             {['address', 'hours', 'email', 'phone'].map((item, index) => (
               <div 
                 key={item} 
-                className="relative flex items-center group/item py-3 px-4 rounded-xl hover:bg-gradient-to-r from-transparent via-cyan-600/5 to-transparent transition-all duration-300"
+                className="relative flex items-center group/item py-3 px-2 rounded-xl hover:bg-gradient-to-r from-transparent via-cyan-600/5 to-transparent transition-all duration-300"
               >
                 <div className="absolute left-0 top-1/2 w-1 h-0 bg-gradient-to-b from-cyan-800 via-cyan-800 to-transparent -translate-y-1/2 group-hover/item:h-12 transition-all duration-500" />
                 
@@ -391,4 +391,3 @@ const Map = ({
 };
 
 export default Map;
-
