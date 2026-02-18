@@ -19,10 +19,27 @@ function Register() {
   const validationSchema = yup.object({
     name: yup.string().required( t('validation.name.required') ),
     email: yup.string().email(t('validation.name.invalid')).required(t('validation.email.required')),
-    dob: yup.date()
+
+  dob: yup
+    .mixed()
+    .test('is-valid-date', t('validation.dob.invalid'), function(value) {
+      // Skip validation if empty
+      if (!value) return false;
+      
+      // Try to create a valid date
+      const date = new Date(value);
+      return !isNaN(date.getTime());
+    })
     .required(t('validation.dob.required'))
-    .min(new Date().getDate() - 1 , t('validation.dob.min'))
-    .typeError(t('validation.dob.invalid')),
+    .test('is-future-date', t('validation.dob.min'), function(value) {
+      if (!value) return false;
+      
+      const selectedDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      return selectedDate >= today;
+    }),  
     phone: yup
       .string()
       .matches(/^\d{10}$/, t('validation.phone.required'))
@@ -226,6 +243,7 @@ function Register() {
 }
 
 export default Register;
+
 
 
 
